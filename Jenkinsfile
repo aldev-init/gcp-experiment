@@ -15,8 +15,7 @@ pipeline {
             agent any
             steps{
                 sh '''
-                     gcloud container clusters get-credentials ${CLUSTER} --zone ${ZONE} --project ${PROJECT_ID}
-                     --impersonate-service-account=${ACCOUNT_IMPERSONATED}
+                     gcloud container clusters get-credentials ${CLUSTER} --zone ${ZONE} --project ${PROJECT_ID} --impersonate-service-account=${ACCOUNT_IMPERSONATED}
                     '''
             }
         }
