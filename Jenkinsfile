@@ -1,3 +1,4 @@
+library('jenkins-shared-library') _
 pipeline {
     agent none
     environment{
@@ -13,33 +14,42 @@ pipeline {
     stages {
         stage('init kubernetes configuration'){
             agent any
-            sh '''
-                gcloud container clusters get-credentials ${CLUSTER} --zone ${ZONE} --project ${PROJECT_ID} --impersonate-service-account=${ACCOUNT_IMPERSONATED}
-            '''
+            steps{
+                sh '''
+                     gcloud container clusters get-credentials ${CLUSTER} --zone ${ZONE} --project ${PROJECT_ID}
+                     --impersonate-service-account=${ACCOUNT_IMPERSONATED}
+                    '''
+            }
         }
         stage('build') {
             agent any
-            sh '''
-                mvn clean package
-            '''
+            steps{
+                sh '''
+                    mvn clean package
+                '''
+            }
         }
 
         stage('Deploy Image'){
             agent any
-            sh '''
-                =======================DOCKER STEP==========================
-                docker build -f src/main/docker/Dockerfile.jvm -t ${APP_NAME}:${TAG} .
-                docker tag ${APP_NAME}:${TAG} ${IMAGE_TAG}
-                docker push ${IMAGE_TAG}
-            '''
+            steps{
+                sh '''
+                        =======================DOCKER STEP==========================
+                        docker build -f src/main/docker/Dockerfile.jvm -t ${APP_NAME}:${TAG} .
+                        docker tag ${APP_NAME}:${TAG} ${IMAGE_TAG}
+                        docker push ${IMAGE_TAG}
+                     '''
+            }
         }
 
         stage('Deploy Service'){
             agent any
-            sh '''
-                =======================KUBERNETES STEP========================
-                kubectl apply -f storage-service.yaml -n ${NAMESPACE}
-            '''
+            steps{
+                sh '''
+                      =======================KUBERNETES STEP========================
+                      kubectl apply -f storage-service.yaml -n ${NAMESPACE}
+                '''
+            }
         }
     }
 }
