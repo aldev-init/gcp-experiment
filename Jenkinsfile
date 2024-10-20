@@ -32,7 +32,6 @@ pipeline {
             agent any
             steps{
                 sh '''
-                        =======================DOCKER STEP==========================
                         docker build -f src/main/docker/Dockerfile.jvm -t ${APP_NAME}:${TAG} .
                         docker tag ${APP_NAME}:${TAG} ${IMAGE_TAG}
                         docker push ${IMAGE_TAG}
@@ -44,7 +43,6 @@ pipeline {
             agent any
             steps{
                 sh '''
-                      =======================KUBERNETES STEP========================
                       kubectl apply -f storage-service.yaml -n ${NAMESPACE}
                 '''
             }
