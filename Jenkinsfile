@@ -1,4 +1,3 @@
-library('jenkins-shared-library') _
 pipeline {
     agent none
     environment{
