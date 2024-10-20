@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-service
+  labels:
+    name: storage-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: storage-service
+  template:
+    metadata:
+      name: storage-service
+      labels:
+        name: storage-service
+    spec:
+      containers:
+        - name: storage-service
+          image: us-central1-docker.pkg.dev/experiment-ifg-433204/ifg-docker-registry/storage-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: QUARKUS_GOOGLE_CLOUD_STORAGE_PROJECT_ID
+              value: experiment-ifg-433204
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-load-balancer
+spec:
+  type: LoadBalancer
+  selector:
+    name: storage-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
