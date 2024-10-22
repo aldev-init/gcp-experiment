@@ -11,14 +11,14 @@ pipeline {
        PROJECT_ID = "experiment-ifg-433204"
     }
     stages {
-        stage('init kubernetes configuration'){
-            agent any
-            steps{
-                sh '''
-                     gcloud container clusters get-credentials ${CLUSTER} --zone ${ZONE} --project ${PROJECT_ID} --impersonate-service-account=${ACCOUNT_IMPERSONATED}
-                    '''
-            }
-        }
+//         stage('init kubernetes configuration'){
+//             agent any
+//             steps{
+//                 sh '''
+//                      gcloud container clusters get-credentials ${CLUSTER} --zone ${ZONE} --project ${PROJECT_ID} --impersonate-service-account=${ACCOUNT_IMPERSONATED}
+//                     '''
+//             }
+//         }
         stage("see jenkins user"){
             agent any
             steps{
@@ -47,13 +47,13 @@ pipeline {
             }
         }
 
-        stage('Deploy Service'){
-            agent any
-            steps{
-                sh '''
-                      kubectl apply -f storage-service.yaml -n ${NAMESPACE}
-                '''
-            }
-        }
+//         stage('Deploy Service'){
+//             agent any
+//             steps{
+//                 sh '''
+//                       kubectl apply -f storage-service.yaml -n ${NAMESPACE}
+//                 '''
+//             }
+//         }
     }
 }
