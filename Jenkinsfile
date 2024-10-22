@@ -23,7 +23,7 @@ pipeline {
             agent any
             steps{
                 sh '''
-                    sudo su - jenkins
+                    whoami
                 '''
             }
         }
