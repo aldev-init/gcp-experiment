@@ -19,7 +19,7 @@ pipeline {
                     '''
             }
         }
-        stage("change jenkins user"){
+        stage("see jenkins user"){
             agent any
             steps{
                 sh '''
