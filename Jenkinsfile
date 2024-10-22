@@ -19,6 +19,14 @@ pipeline {
                     '''
             }
         }
+        stage("change jenkins user"){
+            agent any
+            steps{
+                sh '''
+                    sudo su - jenkins
+                '''
+            }
+        }
         stage('build') {
             agent any
             steps{
